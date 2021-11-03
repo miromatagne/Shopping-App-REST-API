@@ -1,0 +1,16 @@
+{
+  "name": "shopping-cart",
+  "version": "1.0.0",
+  "description": "Shopping Cart component based on Express",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "express": "^4.17.1"
+  }
+}
