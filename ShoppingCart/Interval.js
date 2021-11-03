@@ -6,10 +6,12 @@ class Interval {
     }
 
     start() {
-        this._interval = setInterval(this._funct, this._interval * 1000);
+        this._interval = setInterval(this._funct, this._seconds * 1000);
     }
 
     stop() {
         clearInterval(this._interval);
     }
 }
+
+export default Interval;

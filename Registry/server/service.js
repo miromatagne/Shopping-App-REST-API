@@ -19,9 +19,9 @@ module.exports = (config) => {
     (req, res) => {
       const { servicename, serviceversion, serviceport } = req.params;
 
-      const serviceip = req.connection.remoteAddress.includes("::")
-        ? `[${req.connection.remoteAddress}]`
-        : req.connection.remoteAddress;
+      const serviceip = req.socket.remoteAddress.includes("::")
+        ? `[${req.socket.remoteAddress}]`
+        : req.socket.remoteAddress;
 
       const serviceKey = serviceRegistry.register(
         servicename,

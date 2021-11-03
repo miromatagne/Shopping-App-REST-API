@@ -45,7 +45,7 @@ async function getDBComponent() {
     return (db_component = await findDBComponent());
 }
 
-let interval = new Interval(_register, 5);
+let interval = new Interval(_register, config.registryInterval);
 
 export default {
     register: () => { interval.start(); },
