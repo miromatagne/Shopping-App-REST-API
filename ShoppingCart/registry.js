@@ -22,18 +22,19 @@ let db_component = null;
 async function findDBComponent() {
     try {
         const response =  await registry.get(`/find/${config.dbName}/${config.dbVersion}`);
-        console.log(response);
+        console.log(response.data);
 
-        if (response instanceof Object)
+        if (response.data instanceof Object)
         {
             return axios.create({
-                baseURL: `http://${resposne.ip}:${response.port}`,
+                baseURL: `http://${response.data.ip}:${response.data.port}`,
             });
         }
         
         return null;
     } catch (error) {
         console.error(error);
+        return null;
     }
 }
 

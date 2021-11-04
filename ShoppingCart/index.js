@@ -20,27 +20,63 @@ app.get("/", (_, res, next) => {
 app.post("/:name", async (req, res, next) => {
     const { name } = req.params;
 
-    const response = await registry.getDBComponent().get(`/checkStock?productName=${name}`);
+    const db_service = await registry.getDBComponent();
 
-    if (response.status == 200)
+    if (!db_service)
     {
-        const product = response.data.product;
-
-        if (product.stock != 0 &&
-            shoppingCart.getProductAmount(product.name) < product.stock)
-        {
-            memory.shoppingCart.addProduct(response.data.product);
-            res.json(new Response({
-                status: true,
-                content: ""
-            }));
-            next();
-        }
+        res.json(new Response({
+            status: false,
+            content: "Could not reach database service."
+        }));
+        next();
     }
 
+    try {
+        const response = await db_service.get(`/checkStock?productName=${name}`);
+
+        if (response.status == 200)
+        {
+            const product = response.data.product;
+
+            if (!product)
+            {
+                res.json(new Response({
+                    status: true,
+                    content: "The product does not exist."
+                }));
+                next();
+                return;
+            }
+
+            if (product.stock != 0 &&
+                memory.shoppingCart.getProductAmount(product.name) < product.stock)
+            {
+                memory.shoppingCart.addProduct(response.data.product);
+                res.json(new Response({
+                    status: true,
+                    content: "Product successfully added."
+                }));
+                next();
+                return;
+            }
+            else
+            {
+                res.json(new Response({
+                    status: true,
+                    content: "Insuficient stock."
+                }));
+                next();
+                return;
+            }
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+    
     res.json(new Response({
         status: false,
-        content: ""
+        content: "The product could not be added"
     }));
     next();
 });
@@ -52,7 +88,7 @@ app.delete("/:name", (req, res, next) => {
 
     res.json(new Response({
         status:true,
-        content: ""
+        content: "Product successfully removed from shopping cart."
     }));
 
     next();

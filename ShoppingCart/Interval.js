@@ -6,6 +6,7 @@ class Interval {
     }
 
     start() {
+        this._funct();
         this._interval = setInterval(this._funct, this._seconds * 1000);
     }
 

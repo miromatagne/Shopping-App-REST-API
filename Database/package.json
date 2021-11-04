@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "API for handling database",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "test"
   },
